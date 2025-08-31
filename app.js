@@ -35,7 +35,6 @@ async function handleRedirect() {
     if (!code) return null;
 
     const codeVerifier = localStorage.getItem("code_verifier");
-
     const body = new URLSearchParams({
         grant_type: "authorization_code",
         code: code,
@@ -55,7 +54,6 @@ async function handleRedirect() {
     localStorage.setItem("access_token", accessToken);
 
     window.history.replaceState({}, document.title, window.location.pathname);
-
     return accessToken;
 }
 
@@ -69,7 +67,6 @@ downloadBtn.style.display = "none";
 
 async function init() {
     let accessToken = localStorage.getItem("access_token") || await handleRedirect();
-
     if (accessToken) {
         loginBtn.style.display = "none"; 
         inputContainer.style.display = "flex"; 
@@ -99,7 +96,7 @@ function displayPlaylist(tracks) {
         div.classList.add("track");
         div.innerHTML = `
             <strong>${i+1}. ${t.track.name}</strong><br>
-            Artist: ${t.track.artists.map(a=>a.name).join(", ")}<br>
+            Artist: ${t.track.artists.map(a => a.name).join(", ")}<br>
             Album: ${t.track.album.name}
         `;
         playlistContainer.appendChild(div);
@@ -111,7 +108,7 @@ function downloadCSV(tracks) {
     const rows = ["Track,Artist,Album"];
     tracks.forEach(t => {
         const trackName = t.track.name.replace(/,/g,"");
-        const artists = t.track.artists.map(a=>a.name).join(" & ").replace(/,/g,"");
+        const artists = t.track.artists.map(a => a.name).join(" & ").replace(/,/g,"");
         const album = t.track.album.name.replace(/,/g,"");
         rows.push(`${trackName},${artists},${album}`);
     });
@@ -153,5 +150,7 @@ toggleBtn.addEventListener("click", () => {
     if(themeIndex === 1) body.classList.add("theme-red-yellow");
     else if(themeIndex === 2) body.classList.add("theme-pink-purple");
 });
+
+
 
 
