@@ -186,7 +186,6 @@ button:active {
   background: #12e112;
   color: #000;
 }
-
 @media (max-width: 768px) {
   h1 { font-size: 1.4rem; margin-bottom: 25px; }
   button { font-size: 10px; padding: 12px 20px; }
