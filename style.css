@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Press Start 2P', cursive;
+  background: radial-gradient(circle at top left, #40d9ff, #1DB954);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  transition: background 0.8s ease-in-out;
+}
+
+body.theme-red-yellow {
+  background: radial-gradient(circle at top left, #b22222, #e6a400);
+}
+
+body.theme-pink-purple {
+  background: radial-gradient(circle at top left, #ff69b4, #8a2be2);
+}
+
+h1 {
+  font-size: 2rem;
+  color: #ffffff;
+  text-shadow: 3px 3px 0 #0077b6, -3px -3px 0 #004d40;
+  margin-bottom: 40px;
+  animation: glow 2s ease-in-out infinite alternate;
+  text-align: center;
+  z-index: 1;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px #40d9ff, 0 0 10px #1DB954; }
+  to   { text-shadow: 0 0 15px #40d9ff, 0 0 25px #1DB954; }
+}
+
+#input-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#playlist-id {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 4px solid #000;
+  width: 300px;
+  max-width: 80vw;
+  box-shadow: 0 6px #004d61;
+  outline: none;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.3s;
+}
+
+#playlist-id:focus {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px #00343f;
+  filter: brightness(1.1);
+}
+
+button {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to bottom, #ffffff 50%, #40d9ff 50%);
+  border: 4px solid #000;
+  color: #000;
+  text-transform: uppercase;
+  box-shadow: 0 6px #004d61;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.3s;
+  z-index: 1;
+}
+
+button:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px #00343f;
+  filter: brightness(1.1);
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px #00252b;
+}
+
+#playlist-container {
+  width: 80%;
+  max-width: 700px;
+  margin-top: 20px;
+  padding: 20px;
+  background: #e8fff0;
+  border: 6px solid #000;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4), inset 0 0 15px #1DB954;
+  text-align: left;
+  overflow-y: auto;
+  max-height: 300px;
+  position: relative;
+  z-index: 1;
+}
+
+.track {
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  padding: 5px 0;
+}
+
+#theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 20px;
+  padding: 12px 14px;
+  background: #000;
+  color: #fff;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+  z-index: 100;
+}
+
+#theme-toggle:hover {
+  transform: rotate(20deg) scale(1.1);
+  background: #12e112;
+  color: #000;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 1.4rem; margin-bottom: 25px; }
+  button, #playlist-id { font-size: 10px; padding: 12px 20px; }
+  #playlist-container { width: 90%; padding: 15px; max-height: 250px; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1rem; line-height: 1.4; }
+  button, #playlist-id {
+    display: block;
+    width: 80%;
+    max-width: 250px;
+    margin: 10px auto;
+    font-size: 9px;
+    padding: 10px 15px;
+  }
+  #playlist-container {
+    width: 95%;
+    padding: 10px;
+    font-size: 10px;
+    max-height: 200px;
+  }
+}
+
+
+
+
+
+
