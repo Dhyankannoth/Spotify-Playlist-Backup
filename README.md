@@ -17,16 +17,11 @@ Custom themes – toggle between three vibrant styles
 
 Fully responsive and retro-styled UI 🎮
 
-🖥️ Demo
-
-Check it out live on GitHub Pages:
-Spotify Playlist Backup
-
 🚀 How to Use
 
 Click Login with Spotify to authenticate securely.
 
-Enter a playlist ID (the unique Spotify playlist code).
+Enter a playlist ID or URL.
 
 Click Fetch Playlist to see all tracks.
 
