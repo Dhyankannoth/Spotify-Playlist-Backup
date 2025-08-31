@@ -7,24 +7,26 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <h1>Spotify Playlist Backup Service</h1>
+  <h1>Spotify Playlist Backup</h1>
 
   <button id="login-btn">Login with Spotify</button>
 
   <div id="input-container">
-    <input type="text" id="playlist-id" placeholder="Paste playlist ID">
+    <input type="text" id="playlist-id" placeholder="Enter Playlist ID">
     <button id="fetch-btn">Fetch Playlist</button>
   </div>
 
   <div id="playlist-container"></div>
-  <button id="download-btn" style="display:none;">Download Backup</button>
+  <button id="download-btn">Download CSV</button>
 
   <button id="theme-toggle" title="Toggle Theme">
     <i class="fas fa-adjust"></i>
   </button>
+
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
