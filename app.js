@@ -1,4 +1,4 @@
-const clientId = "YOUR_SPOTIFY_CLIENT_ID";
+const clientId = "8a46cae383774efa95cab3996c13f1aa";
 const redirectUri = "https://dhyankannoth.github.io/Spotify-Playlist-Backup/";
 const scopes = "playlist-read-private playlist-read-collaborative";
 
@@ -108,5 +108,6 @@ toggleBtn.addEventListener("click", () => {
     if(themeIndex === 1) body.classList.add("theme-red-yellow");
     else if(themeIndex === 2) body.classList.add("theme-pink-purple");
 });
+
 
 
