@@ -19,6 +19,9 @@ async function generateCodeChallenge(verifier) {
 }
 
 async function loginWithSpotify() {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("code_verifier");
+
     const codeVerifier = generateRandomString(128);
     localStorage.setItem("code_verifier", codeVerifier);
     const codeChallenge = await generateCodeChallenge(codeVerifier);
@@ -27,14 +30,13 @@ async function loginWithSpotify() {
     window.location.href = authUrl;
 }
 
-document.getElementById("login-btn").addEventListener("click", loginWithSpotify);
-
-async function handleRedirect() {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
-    if (!code) return null;
-
+async function handleRedirect(code) {
     const codeVerifier = localStorage.getItem("code_verifier");
+    if (!codeVerifier) {
+        alert("Code verifier missing. Please login again.");
+        return null;
+    }
+
     const body = new URLSearchParams({
         grant_type: "authorization_code",
         code: code,
@@ -43,47 +45,67 @@ async function handleRedirect() {
         code_verifier: codeVerifier
     });
 
-    const response = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: body
-    });
+    try {
+        const response = await fetch("https://accounts.spotify.com/api/token", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: body
+        });
 
-    const data = await response.json();
-    const accessToken = data.access_token;
-    localStorage.setItem("access_token", accessToken);
+        if (!response.ok) throw new Error("Token request failed");
 
-    window.history.replaceState({}, document.title, window.location.pathname);
-    return accessToken;
-}
+        const data = await response.json();
+        localStorage.setItem("access_token", data.access_token);
 
-const loginBtn = document.getElementById("login-btn");
-const inputContainer = document.getElementById("input-container");
-const playlistContainer = document.getElementById("playlist-container");
-const downloadBtn = document.getElementById("download-btn");
-
-inputContainer.style.display = "none";
-downloadBtn.style.display = "none";
-
-async function init() {
-    let accessToken = localStorage.getItem("access_token") || await handleRedirect();
-    if (accessToken) {
-        loginBtn.style.display = "none"; 
-        inputContainer.style.display = "flex"; 
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return data.access_token;
+    } catch (err) {
+        console.error(err);
+        alert("Failed to login. Please try again.");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("code_verifier");
+        return null;
     }
 }
 
-init();
+async function init() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    let accessToken = localStorage.getItem("access_token");
+
+    if (code) {
+        accessToken = await handleRedirect(code);
+    }
+
+    if (accessToken) {
+        loginBtn.style.display = "none";
+        inputContainer.style.display = "flex";
+    } else {
+        loginBtn.style.display = "block";
+        inputContainer.style.display = "none";
+    }
+}
 
 async function fetchPlaylist(playlistId) {
-    const token = localStorage.getItem("access_token");
-    if (!token) { alert("Session expired, please log in."); return; }
+    let token = localStorage.getItem("access_token");
+    if (!token) {
+        alert("Session expired or not logged in. Redirecting to login.");
+        loginBtn.style.display = "block";
+        inputContainer.style.display = "none";
+        return;
+    }
 
     const resp = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
         headers: { Authorization: "Bearer " + token }
     });
 
-    if (!resp.ok) { alert("Failed to fetch playlist. Check ID or login again."); return; }
+    if (!resp.ok) {
+        alert("Failed to fetch playlist. Session may have expired. Login again.");
+        localStorage.removeItem("access_token");
+        loginBtn.style.display = "block";
+        inputContainer.style.display = "none";
+        return;
+    }
 
     const data = await resp.json();
     displayPlaylist(data.tracks.items);
@@ -120,12 +142,17 @@ function downloadCSV(tracks) {
     a.click();
 }
 
+const loginBtn = document.getElementById("login-btn");
+const inputContainer = document.getElementById("input-container");
+const playlistContainer = document.getElementById("playlist-container");
+const downloadBtn = document.getElementById("download-btn");
+
+loginBtn.addEventListener("click", loginWithSpotify);
 document.getElementById("fetch-btn").addEventListener("click", () => {
     const playlistId = document.getElementById("playlist-id").value.trim();
     if (!playlistId) { alert("Enter a playlist ID"); return; }
     fetchPlaylist(playlistId);
 });
-
 downloadBtn.addEventListener("click", () => {
     const tracks = Array.from(document.querySelectorAll(".track")).map(div => {
         const lines = div.innerText.split("\n");
@@ -150,6 +177,10 @@ toggleBtn.addEventListener("click", () => {
     if(themeIndex === 1) body.classList.add("theme-red-yellow");
     else if(themeIndex === 2) body.classList.add("theme-pink-purple");
 });
+
+init();
+
+
 
 
 
