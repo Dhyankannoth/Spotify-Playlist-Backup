@@ -1,4 +1,4 @@
-const clientId = "YOUR_SPOTIFY_CLIENT_ID";
+const clientId = "8a46cae383774efa95cab3996c13f1aa";
 const redirectUri = "https://dhyankannoth.github.io/Spotify-Playlist-Backup/";
 const scopes = "playlist-read-private playlist-read-collaborative";
 
@@ -64,12 +64,15 @@ const inputContainer = document.getElementById("input-container");
 const playlistContainer = document.getElementById("playlist-container");
 const downloadBtn = document.getElementById("download-btn");
 
+inputContainer.style.display = "none";
+downloadBtn.style.display = "none";
+
 async function init() {
     let accessToken = localStorage.getItem("access_token") || await handleRedirect();
 
     if (accessToken) {
-        loginBtn.style.display = "none";
-        inputContainer.style.display = "flex";
+        loginBtn.style.display = "none"; 
+        inputContainer.style.display = "flex"; 
     }
 }
 
@@ -101,7 +104,7 @@ function displayPlaylist(tracks) {
         `;
         playlistContainer.appendChild(div);
     });
-    downloadBtn.style.display = "inline-block";
+    downloadBtn.style.display = "inline-block"; 
 }
 
 function downloadCSV(tracks) {
@@ -150,3 +153,5 @@ toggleBtn.addEventListener("click", () => {
     if(themeIndex === 1) body.classList.add("theme-red-yellow");
     else if(themeIndex === 2) body.classList.add("theme-pink-purple");
 });
+
+
