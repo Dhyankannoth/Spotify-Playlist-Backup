@@ -1,7 +1,6 @@
-const clientId = "8a46cae383774efa95cab3996c13f1aa"; 
-const redirectUri = "https://dhyankannoth.github.io/Spotify-Playlist-Backup/"; 
+const clientId = "YOUR_SPOTIFY_CLIENT_ID";
+const redirectUri = "https://dhyankannoth.github.io/Spotify-Playlist-Backup/";
 const scopes = "playlist-read-private playlist-read-collaborative";
-
 
 document.getElementById("login-btn").addEventListener("click", () => {
     const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}`;
@@ -24,8 +23,8 @@ const playlistContainer = document.getElementById("playlist-container");
 const downloadBtn = document.getElementById("download-btn");
 
 if(accessToken) {
-    loginBtn.style.display = "none";
-    inputContainer.style.display = "flex";
+    loginBtn.style.display = "none";          
+    inputContainer.style.display = "flex";    
 }
 
 async function fetchPlaylist(playlistId) {
@@ -39,7 +38,7 @@ async function fetchPlaylist(playlistId) {
     });
 
     if(!response.ok) {
-        alert("Failed to fetch playlist. Please log in again.");
+        alert("Failed to fetch playlist. Check the ID or log in again.");
         return;
     }
 
